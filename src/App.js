@@ -1,23 +1,109 @@
-import logo from './logo.svg';
-import './App.css';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import axios from 'axios';
+import { useState,useEffect } from 'react';
+import { useAuth } from './Context/AuthContext';
+
+import NavBar from "./components/Navbar";
+import HomePage from './components/HomePage';
+import Signup from './components/Signup';
+import Login from './components/Login';
+import BlogPosts from './components/BLOG/BlogPosts';
+import ViewBlogs from './components/BLOG/ViewBlogs';
 
 function App() {
+
+  const [accessToken, setAccessToken] = useState('');
+  const [refreshToken, setRefreshToken] = useState('');
+  const {isAuthenticated,setIsAuthenticated} = useAuth();
+  
+  
+  const refreshTokenFn = async (sendRefresh) => {
+    try {
+      const response = await axios.post('http://localhost:4000/token', {
+        token: sendRefresh,
+      });
+
+      if (response.status === 200) {
+        const data = response.data;
+        setAccessToken(data.accessToken);
+        console.log('Token refreshed successfully');
+
+        // Save the new access token to localStorage
+        localStorage.setItem('accessToken', data.accessToken);
+      } else {
+        console.error('Token refresh failed');
+      }
+    } catch (error) {
+      console.error('Token refresh error:', error);
+    }
+  };
+
+
+  useEffect(() => {
+    // Retrieve tokens and last refresh timestamp from localStorage during component initialization
+    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedRefreshToken = localStorage.getItem('refreshToken');
+    let lastTokenRefreshTimestamp = parseInt(localStorage.getItem('lastTokenRefresh')) || 0;
+    const nowTimestamp = Date.now();
+  
+    if (storedAccessToken /* && nowTimestamp <= lastTokenRefreshTimestamp + 9000 */) {
+      setAccessToken(storedAccessToken);
+      setIsAuthenticated(true);
+    }
+  
+    if (storedRefreshToken) {
+      setRefreshToken(storedRefreshToken);
+    }
+    console.log(isAuthenticated);
+    // Set up a timer to refresh the token based on the time elapsed since the last refresh
+   /*  if ( storedAccessToken && nowTimestamp > lastTokenRefreshTimestamp + 9000) {
+      refreshTokenFn();
+      console.log('hello world :',refreshToken);
+      localStorage.setItem('lastTokenRefresh', nowTimestamp);
+    }
+ */
+
+    let tokenRefreshTimer;
+
+    if (isAuthenticated) {
+      if(nowTimestamp > lastTokenRefreshTimestamp+400000){
+        refreshTokenFn(localStorage.getItem('refreshToken'));
+        //console.log('hi hi hi');
+        localStorage.setItem('lastTokenRefresh', nowTimestamp);
+      }
+      const timeToNextRefresh = Math.max(0, lastTokenRefreshTimestamp + 400000 - nowTimestamp);
+      tokenRefreshTimer = setTimeout(() => {
+        //console.log("wrf ? :",refreshToken);
+        refreshTokenFn(localStorage.getItem('refreshToken'));
+        lastTokenRefreshTimestamp = Date.now(); // Update the last refresh timestamp
+        localStorage.setItem('lastTokenRefresh', lastTokenRefreshTimestamp);
+      }, timeToNextRefresh);
+    }
+  
+    // Clear the timer on component unmount or if the user logs out
+    return () => {
+      clearInterval(tokenRefreshTimer);
+    };
+  
+  }, [isAuthenticated, refreshToken,setIsAuthenticated,accessToken]);
+  
+  
+  
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="mainContent">
+        <Router>
+            <NavBar/>
+          <Routes>
+              <Route path='/' element={<HomePage />}/>
+              <Route path='/signup' element={<Signup />}/> 
+              <Route path='/login' element={<Login/>}/>
+              <Route path='/blogposts' element={<BlogPosts />}/>
+              <Route path='/viewblogs' element={<ViewBlogs />}/>
+          </Routes>
+        </Router>
+      </div>
     </div>
   );
 }
