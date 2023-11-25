@@ -50,7 +50,7 @@ const ViewBlogs = () => {
         {[...posts].reverse().map((post) => (
           <Paper key={post._id} sx={{ p: 2, mb: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
             <div>
-              <Typography variant="h4" component="h4" gutterBottom>
+              <Typography variant="h4" component="h4" gutterBottom sx={{bgcolor:'rgba(173, 216, 230, 0.8)', textDecoration:'none'}}>
                 {post.title}
               </Typography>
               <Typography variant="body1" gutterBottom sx={{ textDecoration: 'none' }}>

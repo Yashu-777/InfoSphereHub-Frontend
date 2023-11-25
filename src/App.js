@@ -11,6 +11,8 @@ import Login from './components/Login';
 import BlogPosts from './components/BLOG/BlogPosts';
 import ViewBlogs from './components/BLOG/ViewBlogs';
 import NewBlog from './components/BLOG/NewBlog';
+import CreateTask from './components/TASK/CreateTask';
+import ViewTasks from './components/TASK/ViewTasks';
 
 function App() {
 
@@ -95,7 +97,7 @@ function App() {
   return (
       <Router>
         
-        <Container maxWidth="md" sx={{my:{xs:0,md:3},px:{xs:0,md:2}}}>
+        <Container maxWidth="md" sx={{my:{xs:0,md:0},px:{xs:0,md:0},pb:1,minHeight:'100vh', bgcolor:'peachpuff'}}>
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -104,6 +106,8 @@ function App() {
             <Route path="/blogposts" element={<BlogPosts />} />
             <Route path="/viewblogs" element={<ViewBlogs />} />
             <Route path="/newpost" element={<NewBlog />} />
+            <Route path="/createtask" element={<CreateTask />} />
+            <Route path="/viewtasks" element={<ViewTasks />} />
           </Routes>
         </Container>
       </Router>

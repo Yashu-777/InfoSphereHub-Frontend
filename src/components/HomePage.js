@@ -4,8 +4,8 @@ import { Typography, List, ListItem, Paper } from '@mui/material';
 
 const HomePage = () => {
   return (
-    
-    <Paper elevation={3} sx={{ padding: 3, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '90vh' }}>
+    <div>
+    <Paper elevation={0} sx={{ padding: 3, textAlign: 'center', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center',bgcolor:'peachpuff',/*  minHeight:'100vh' */ }}>
         <Typography variant="h5" gutterBottom>
           Welcome to Big Three
         </Typography>
@@ -21,12 +21,24 @@ const HomePage = () => {
             </Link>
           </ListItem>
           <ListItem>
-            <Link to="/newpost" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Link to="/newpost" style={{ textDecoration: 'none', color: 'inherit' ,}}>
               <Typography variant="h6">Create New Post</Typography>
+            </Link>
+          </ListItem>
+         
+          <ListItem>
+            <Link to="/viewtasks" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Typography variant="h6">View Tasks</Typography>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/createtask" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Typography variant="h6">Create New Task</Typography>
             </Link>
           </ListItem>
         </List>
       </Paper>
+      </div>
   );
 };
 
