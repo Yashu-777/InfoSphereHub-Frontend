@@ -2,6 +2,7 @@ import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import axios from 'axios';
 import { useState,useEffect } from 'react';
 import { useAuth } from './Context/AuthContext';
+import Container from '@mui/material/Container';
 
 import NavBar from "./components/Navbar";
 import HomePage from './components/HomePage';
@@ -9,6 +10,7 @@ import Signup from './components/Signup';
 import Login from './components/Login';
 import BlogPosts from './components/BLOG/BlogPosts';
 import ViewBlogs from './components/BLOG/ViewBlogs';
+import NewBlog from './components/BLOG/NewBlog';
 
 function App() {
 
@@ -91,21 +93,21 @@ function App() {
   
   
   return (
-    <div className="App">
-      <div className="mainContent">
-        <Router>
-            <NavBar/>
+      <Router>
+        
+        <Container maxWidth="md" sx={{my:{xs:0,md:3},px:{xs:0,md:2}}}>
+          <NavBar />
           <Routes>
-              <Route path='/' element={<HomePage />}/>
-              <Route path='/signup' element={<Signup />}/> 
-              <Route path='/login' element={<Login/>}/>
-              <Route path='/blogposts' element={<BlogPosts />}/>
-              <Route path='/viewblogs' element={<ViewBlogs />}/>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/blogposts" element={<BlogPosts />} />
+            <Route path="/viewblogs" element={<ViewBlogs />} />
+            <Route path="/newpost" element={<NewBlog />} />
           </Routes>
-        </Router>
-      </div>
-    </div>
-  );
+        </Container>
+      </Router>
+    );
 }
 
 export default App;

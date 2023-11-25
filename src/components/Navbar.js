@@ -1,54 +1,103 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Nav from 'react-bootstrap/Nav';
+import {
+  AppBar,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
 
 function NavBar() {
   const navigate = useNavigate();
-  const {logoutSuccess} = useAuth();
-  const username=localStorage.getItem('username');
+  const { logoutSuccess } = useAuth();
+  const username = localStorage.getItem('username');
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
   const handleBrandClick = (e) => {
     e.preventDefault();
-    console.log("brand clicked");
+    console.log('brand clicked');
     navigate('/');
+  };
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   const handleLogout = () => {
-    console.log("log out success");
+    console.log('log out success');
     logoutSuccess();
+    setAnchorEl(null);
     navigate('/');
-    
   };
 
   return (
-    <Navbar bg="primary" variant="dark">
+    <AppBar position="static">
       <Container>
-        <Navbar.Brand onClick={handleBrandClick}>Big Three</Navbar.Brand>
-        <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-          {username ? (
-            <Nav>
-              <Nav.Link>Hello {username}</Nav.Link>
-              <NavDropdown title="Profile" id="basic-nav-dropdown">
-                <NavDropdown.Item as={Link} to="/profile">
-                  Profile
-                </NavDropdown.Item>
-                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
-              </NavDropdown>
-            </Nav>
-          ) : (
-            <Nav>
-              <Nav.Link as={Link} to="/login">
-                Login
-              </Nav.Link>
-            </Nav>
+        <Toolbar>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, cursor: 'pointer' }}
+            onClick={handleBrandClick}
+          >
+            Big Three
+          </Typography>
+          {username && (
+            <Typography variant="body1" color="inherit" sx={{ marginRight: 2 }}>
+              Hello {username}
+            </Typography>
           )}
-        </Navbar.Collapse>
+          {username ? (
+            <div>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem as={Link} to="/profile" onClick={handleClose}>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Link to="/login" style={{ color: 'inherit', textDecoration: 'none' }}>
+              <Typography variant="h6">Login</Typography>
+            </Link>
+          )}
+        </Toolbar>
       </Container>
-    </Navbar>
+    </AppBar>
   );
 }
 

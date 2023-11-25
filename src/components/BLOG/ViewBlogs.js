@@ -1,72 +1,86 @@
-// src/components/Blog.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axiosInt from '../../Axios/axiosIntercept';
+import { Link as Typography, Button, Container, Box, Paper } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const ViewBlogs = () => {
   const [posts, setPosts] = useState([]);
-  const [newPost, setNewPost] = useState({ title: '', content: '' });
+  const currentUser = localStorage.getItem('username');
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  useEffect(() => {
-    // Fetch all posts when the component mounts
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
+  const fetchPosts = useCallback(async () => {
     try {
-      const response = await axiosInt.get('http://localhost:4000/allpost');
+      const response = await axiosInt.get(`${baseUrl}/allpost`);
       setPosts(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error.message);
     }
-  };
+  }, [baseUrl]); // Include baseUrl as a dependency
 
-  const handleInputChange = (e) => {
-    setNewPost({
-      ...newPost,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
 
-  const handleCreatePost = async (e) => {
-    e.preventDefault();
+  const handleDeletePost = async (postId) => {
     try {
-      await axiosInt.post('http://localhost:4000/newpost', newPost);
-      // Clear the form fields and fetch the updated posts
-      setNewPost({ title: '', content: '' });
+      await axiosInt.delete(`${baseUrl}/deletepost/${postId}`);
+      console.log('deleted SADGE');
       fetchPosts();
-      console.log("New post created");
     } catch (error) {
-      console.error('Error creating post:', error);
+      console.error('Error deleting post:', error.message);
     }
   };
 
   return (
-    <div>
-      <h1>Simple Blog</h1>
+    <Container maxWidth="md" sx={{ marginTop: 4 }}>
+      <Box>
+        <Typography variant="h2" component="h2" gutterBottom>
+          Posts
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          component={RouterLink}
+          to="/newpost"
+          sx={{ marginBottom: 2 }}
+        >
+          Create New Post
+        </Button>
 
-      {/* Form to create a new post */}
-      <form onSubmit={handleCreatePost}>
-        <label htmlFor="title">Title:</label>
-        <input type="text" id="title" name="title" value={newPost.title} onChange={handleInputChange} required /><br />
-
-        <label htmlFor="content">Content:</label>
-        <textarea id="content" name="content" value={newPost.content} onChange={handleInputChange} required></textarea><br />
-
-        <button type="submit">Create Post</button>
-      </form>
-
-      {/* Display posts */}
-      <h2>Posts</h2>
-      <ul>
-        {posts.map((post) => (
-          <li key={post._id}>
-            <strong>{post.title}</strong><br />
-            {post.content}<br />
-            <em>Author: {post.author.username}</em>
-          </li>
+        {[...posts].reverse().map((post) => (
+          <Paper key={post._id} sx={{ p: 2, mb: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
+            <div>
+              <Typography variant="h4" component="h4" gutterBottom>
+                {post.title}
+              </Typography>
+              <Typography variant="body1" gutterBottom sx={{ textDecoration: 'none' }}>
+                {post.content}
+              </Typography>
+            </div>
+            <br />
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'row' }}>
+              <Typography variant="subtitle2" gutterBottom>
+                Author: {post.author.username}
+              </Typography>
+              <Typography variant="caption" gutterBottom>
+                {new Date(post.timestamp).toLocaleString()}
+              </Typography>
+            </Box>
+            {post.author.username === currentUser && (
+              <Button
+                variant="contained"
+                color="error"
+                sx={{ alignSelf: 'flex-start', my: 1 }}
+                onClick={() => handleDeletePost(post._id)}
+              >
+                Delete
+              </Button>
+            )}
+          </Paper>
         ))}
-      </ul>
-    </div>
+
+      </Box>
+    </Container>
   );
 };
 
