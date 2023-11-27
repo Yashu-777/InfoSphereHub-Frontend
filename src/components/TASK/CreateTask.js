@@ -10,11 +10,16 @@ import {
   InputLabel,
   Grid,
 } from '@mui/material';
+import EventIcon from '@mui/icons-material/Event';
+
 import { useNavigate } from 'react-router-dom';
 import axiosInt from '../../Axios/axiosIntercept';
 
 const CreateTask = () => {
   const navigate = useNavigate();
+  
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  
   const [task, setTask] = useState({
     title: '',
     details: '',
@@ -32,7 +37,7 @@ const CreateTask = () => {
   const handleCreateTask = async (e) => {
     e.preventDefault();
     try {
-      await axiosInt.post('http://localhost:4000/newtask', task);
+      await axiosInt.post(`${baseUrl}/newtask`, task);
       // Clear the form fields after creating a new task
       setTask({
         title: '',
@@ -50,8 +55,9 @@ const CreateTask = () => {
 
   return (
     <Container maxWidth="md" sx={{ marginTop: 4 }}>
-      <Typography variant="h2" component="h2" gutterBottom>
-        Create New Task
+      <Typography variant="h3" component='h3' gutterBottom>
+        <EventIcon sx={{ fontSize: '3rem', verticalAlign: 'middle', marginRight: '0.5rem' }} />
+          New Task
       </Typography>
       <form onSubmit={handleCreateTask}>
         <Grid container spacing={2}>

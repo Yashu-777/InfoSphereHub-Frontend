@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axiosInt from '../../Axios/axiosIntercept';
 import {
   Container,
@@ -13,28 +13,32 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AddTaskIcon from '@mui/icons-material/AddTask';
+import CampaignIcon from '@mui/icons-material/Campaign';
 import { useNavigate } from 'react-router-dom';
 
 const ViewTasks = () => {
   const navigate = useNavigate();
   const [tasks, setTasks] = useState([]);
+  const baseUrl = process.env.REACT_APP_BASE_URL;
 
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
+  const fetchTasks =useCallback(async () => {
     try {
-      const response = await axiosInt.get('http://localhost:4000/alltask');
+      const response = await axiosInt.get(`${baseUrl}/alltask`);
       setTasks(response.data);
     } catch (error) {
       console.error('Error fetching tasks:', error.message);
     }
-  };
+  },[baseUrl]);
+
+  useEffect(() => {
+    fetchTasks();
+  }, [fetchTasks]);
+
 
   const handleDeleteTask = async (taskId) => {
     try {
-      await axiosInt.delete(`http://localhost:4000/deletetask/${taskId}`);
+      await axiosInt.delete(`${baseUrl}/deletetask/${taskId}`);
       // Fetch updated tasks after deleting a task
       fetchTasks();
       console.log('Task deleted successfully');
@@ -45,7 +49,7 @@ const ViewTasks = () => {
 
   const handleStatusChange = async (taskId, newStatus) => {
     try {
-      await axiosInt.put(`http://localhost:4000/updatetask/${taskId}`, {
+      await axiosInt.put(`${baseUrl}/updatetask/${taskId}`, {
         status: newStatus,
       });
       // Fetch updated tasks after updating a task
@@ -71,26 +75,30 @@ const ViewTasks = () => {
 
   return (
     <Container maxWidth="md" sx={{ marginTop: 4 }}>
-      <Typography variant="h2" component="h2" gutterBottom>
+      <Typography variant="h2" component="h2" gutterBottom sx={{ textAlign: 'center', marginBottom: 2 }}>
         Tasks
+        <CampaignIcon sx={{ fontSize: '1.5em', marginLeft: '0.5em' }} />
       </Typography>
+
       <Button
         variant="contained"
         color="primary"
         onClick={() => navigate('/createtask')}
+        startIcon={<AddTaskIcon />}
         sx={{ marginBottom: 2 }}
       >
         Create New Task
       </Button>
-      {tasks.map((task) => (
+      {[...tasks].reverse().map((task) => (
         <Paper
           key={task._id}
           sx={{
             p: 2,
             mb: 2,
             backgroundColor: getPriorityColor(task.priority),
-            filter: task.status ? 'grayscale(60%) blur(0.6px)' : 'none',
+            filter: task.status ? 'grayscale(70%) blur(0.65px)' : 'none',
           }}
+          elevation={task.status ? 0 : 4}
         >
            {task.status && (
             // Display checkmark for completed tasks
@@ -101,7 +109,7 @@ const ViewTasks = () => {
                 left: '45%',
                 transform: 'translate(-50%, -50%)',
                 fontSize:{xs:130,md: 100},
-                color: 'rgb(0,110,0)',
+                color: 'rgb(0,185,0)',
                 zIndex: 1, // Ensure the checkmark appears above other content
               }}
             />

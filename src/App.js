@@ -1,6 +1,6 @@
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route} from 'react-router-dom';
 import axios from 'axios';
-import { useState,useEffect } from 'react';
+import { useState,useEffect,useCallback } from 'react';
 import { useAuth } from './Context/AuthContext';
 import Container from '@mui/material/Container';
 
@@ -13,15 +13,16 @@ import ViewBlogs from './components/BLOG/ViewBlogs';
 import NewBlog from './components/BLOG/NewBlog';
 import CreateTask from './components/TASK/CreateTask';
 import ViewTasks from './components/TASK/ViewTasks';
+import Weather from './components/WEATHER/Weather';
 
 function App() {
 
   const [accessToken, setAccessToken] = useState('');
   const [refreshToken, setRefreshToken] = useState('');
-  const {isAuthenticated,setIsAuthenticated} = useAuth();
+  const {isAuthenticated,setIsAuthenticated,logoutSuccess} = useAuth();
   
-  
-  const refreshTokenFn = async (sendRefresh) => {
+
+  const refreshTokenFn = useCallback(async (sendRefresh) => {
     try {
       const response = await axios.post('http://localhost:4000/token', {
         token: sendRefresh,
@@ -36,11 +37,13 @@ function App() {
         localStorage.setItem('accessToken', data.accessToken);
       } else {
         console.error('Token refresh failed');
+        logoutSuccess();
       }
     } catch (error) {
       console.error('Token refresh error:', error);
+      logoutSuccess();
     }
-  };
+  },[logoutSuccess]);
 
 
   useEffect(() => {
@@ -89,7 +92,7 @@ function App() {
       clearInterval(tokenRefreshTimer);
     };
   
-  }, [isAuthenticated, refreshToken,setIsAuthenticated,accessToken]);
+  }, [isAuthenticated, refreshToken,setIsAuthenticated,accessToken,refreshTokenFn]);
   
   
   
@@ -97,7 +100,9 @@ function App() {
   return (
       <Router>
         
-        <Container maxWidth="md" sx={{my:{xs:0,md:0},px:{xs:0,md:0},pb:1,minHeight:'100vh', bgcolor:'peachpuff'}}>
+        <Container maxWidth="md" sx={{my:{xs:0,md:0},px:{xs:0,md:0},
+        pb:1,minHeight:'100vh',bgcolor: '#E6E6FA'
+      }}>
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -108,10 +113,11 @@ function App() {
             <Route path="/newpost" element={<NewBlog />} />
             <Route path="/createtask" element={<CreateTask />} />
             <Route path="/viewtasks" element={<ViewTasks />} />
+            <Route path="/weather" element={<Weather />} />
           </Routes>
         </Container>
       </Router>
     );
 }
 
-export default App;
+export default App
