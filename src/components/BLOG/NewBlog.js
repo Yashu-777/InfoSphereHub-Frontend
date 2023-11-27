@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, Button, Link, Typography, Container, Box } from '@mui/material';
+import {useNavigate} from 'react-router-dom';
+import { TextField, Button, Link, Typography, Container, Box, Paper } from '@mui/material';
 import axiosInt from '../../Axios/axiosIntercept';
 import CreateIcon from '@mui/icons-material/Create';
 
 const NewBlog = () => {
   const [newPost, setNewPost] = useState({ title: '', content: '' });
   const baseUrl = process.env.REACT_APP_BASE_URL;
+  const navigate = useNavigate();
   const handleInputChange = (e) => {
     setNewPost({
       ...newPost,
@@ -20,6 +22,7 @@ const NewBlog = () => {
       // Clear the form fields and fetch the updated posts
       setNewPost({ title: '', content: '' });
       console.log("New post created");
+      navigate('/viewblogs')
     } catch (error) {
       console.error('Error creating post:', error);
     }
@@ -27,7 +30,7 @@ const NewBlog = () => {
 
   return (
     <Container component="main" maxWidth="md">
-      <Box sx={{ mt: 3 }}>
+      <Paper sx={{ mt: 3,bgcolor:'aliceblue',p:2 }} elevation={2}>
       <Typography
         component="div"
         variant="h3"
@@ -41,7 +44,7 @@ const NewBlog = () => {
         }}
       >
         <CreateIcon sx={{ fontSize: '3rem', marginRight: '0.5rem' }} />
-        New Blog Post
+        New Post
       </Typography>
 
         <form onSubmit={handleCreatePost}>
@@ -78,7 +81,7 @@ const NewBlog = () => {
             View all Blogs
           </Link>
         </Box>
-      </Box>
+      </Paper>
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Container, Grid, Link, Box } from '@mui/material';
+import { Button, TextField, Typography, Container, Grid, Link, Box, Paper } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -41,15 +41,18 @@ function Login() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="md">
       <CssBaseline />
-      <Box
+      <Paper
           sx={{
             marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+            bgcolor:'aliceblue',
+            p:3
           }}
+          elevation={3}
         >
         <Box sx={{ mt: 3, mb: 2 }}>
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
@@ -116,7 +119,7 @@ function Login() {
             {'.'}
           </Typography>
         </Box>
-      </Box>
+      </Paper>
     </Container>
   );
 }

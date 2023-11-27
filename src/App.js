@@ -14,6 +14,7 @@ import NewBlog from './components/BLOG/NewBlog';
 import CreateTask from './components/TASK/CreateTask';
 import ViewTasks from './components/TASK/ViewTasks';
 import Weather from './components/WEATHER/Weather';
+import Profile from './components/Profile';
 
 function App() {
 
@@ -21,10 +22,11 @@ function App() {
   const [refreshToken, setRefreshToken] = useState('');
   const {isAuthenticated,setIsAuthenticated,logoutSuccess} = useAuth();
   
+  const baseURL = process.env.REACT_APP_BASE_URL;
 
   const refreshTokenFn = useCallback(async (sendRefresh) => {
     try {
-      const response = await axios.post('http://localhost:4000/token', {
+      const response = await axios.post(`${baseURL}/token`, {
         token: sendRefresh,
       });
 
@@ -43,7 +45,7 @@ function App() {
       console.error('Token refresh error:', error);
       logoutSuccess();
     }
-  },[logoutSuccess]);
+  },[logoutSuccess,baseURL]);
 
 
   useEffect(() => {
@@ -114,6 +116,7 @@ function App() {
             <Route path="/createtask" element={<CreateTask />} />
             <Route path="/viewtasks" element={<ViewTasks />} />
             <Route path="/weather" element={<Weather />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </Container>
       </Router>

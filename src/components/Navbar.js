@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import InterestsIcon from '@mui/icons-material/Interests';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../Context/AuthContext';
 
@@ -45,15 +46,16 @@ function NavBar() {
       <Container>
         <Toolbar>
           <Typography
-            variant="h6"
+            variant="body1"
             component="div"
             sx={{ flexGrow: 1, cursor: 'pointer' }}
             onClick={handleBrandClick}
           >
-            Big Three
+            SphereHub
+            <InterestsIcon sx={{marginLeft:1, alignSelf:'center'}}/>
           </Typography>
           {username && (
-            <Typography variant="body1" color="inherit" sx={{ marginRight: 2 }}>
+            <Typography variant="body1" color="inherit" sx={{ marginRight:0 }}>
               Hello {username}
             </Typography>
           )}
