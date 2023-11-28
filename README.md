@@ -1,6 +1,6 @@
 # 🌐 SphereHub - https://info-sphere-hub-frontend.vercel.app/
 
-Welcome to SphereHub – your digital hub for thoughts, blogs, tasks,weather updates and more! 🚀
+Welcome to SphereHub – your digital hub for thoughts, blogs, tasks, weather updates and more! 🚀
 
 ## Overview
 
@@ -13,6 +13,7 @@ SphereHub has something for everyone.
 - **Blogs:** Share your thoughts and experiences through blog posts. ✍️
 - **Tasks:** Organize your tasks efficiently and stay on top of your to-do list. 📝
 - **Weather:** Stay updated with the current weather conditions. ☀️🌦️❄️
+
 
 
 # Getting Started with Create React App
