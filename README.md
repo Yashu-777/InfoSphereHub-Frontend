@@ -14,6 +14,9 @@ SphereHub has something for everyone.
 - **Tasks:** Organize your tasks efficiently and stay on top of your to-do list. 📝
 - **Weather:** Stay updated with the current weather conditions. ☀️🌦️❄️
 
+## Feedback
+
+I would love to hear your feedback! Feel free to open an issue if you encounter any problems or have suggestions for improvement.
 
 
 # Getting Started with Create React App
