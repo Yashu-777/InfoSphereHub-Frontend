@@ -39,7 +39,6 @@ const CreateTask = () => {
     e.preventDefault();
     try {
       await axiosInt.post(`${baseUrl}/newtask`, task);
-      // Clear the form fields after creating a new task
       setTask({
         title: '',
         details: '',
@@ -47,7 +46,6 @@ const CreateTask = () => {
         priority: 'Medium',
       });
       console.log('New task created');
-      // Navigate to the view tasks page after creating a new task
       navigate('/viewtasks');
     } catch (error) {
       console.error('Error creating task:', error);

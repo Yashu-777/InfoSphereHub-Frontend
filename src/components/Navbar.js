@@ -22,7 +22,7 @@ function NavBar() {
 
   const handleBrandClick = (e) => {
     e.preventDefault();
-    console.log('brand clicked');
+    //console.log('brand clicked');
     navigate('/');
   };
 
@@ -35,7 +35,7 @@ function NavBar() {
   };
 
   const handleLogout = () => {
-    console.log('log out success');
+    //console.log('log out success');
     logoutSuccess();
     setAnchorEl(null);
     navigate('/');

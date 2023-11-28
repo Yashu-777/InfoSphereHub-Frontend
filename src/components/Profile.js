@@ -100,12 +100,10 @@ const Profile = () => {
       console.log('password changed');
       navigate('/login');
       logoutSuccess();
-      // Password updated successfully, you may want to show a success message
     } catch (error) {
       if (error.response && error.response.status === 401) {
         setPasswordError('Incorrect password');
       }
-      // Handle error, show an error message
     }
   };
   
@@ -114,14 +112,12 @@ const Profile = () => {
     try {
       await axiosInt.delete(`${baseURL}/deleteuser`);
       console.log('User deleted successfully');
-      // Perform any additional actions after successful deletion
       navigate('/login');
       logoutSuccess();
     } catch (error) {
       console.error('Error deleting user:', error.message);
-      // Handle error, show an error message
     } finally {
-      handleCloseDeleteDialog(); // Close the dialog regardless of success or failure
+      handleCloseDeleteDialog();
     }
   };
 
@@ -145,7 +141,7 @@ const Profile = () => {
               <AssignmentIcon /> Total Pending Tasks: {taskCount}
             </Typography>
           </Paper>
-          {/* New password change form */}
+          
           <Paper sx={{ p: 3,bgcolor:'aliceblue' }} elevation={3}>
             <Typography variant="h5" component="h3" gutterBottom>
               Change Password

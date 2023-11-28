@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
   const baseUrl = process.env.REACT_APP_BASE_URL;
 
   const { loginSuccess } = useAuth();
@@ -30,13 +31,16 @@ function Login() {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         loginSuccess(data);
-        console.log('Login successful');
+        setLoginError('');
+        //console.log('Login successful');
         navigate('/');
       } else {
         console.error('Login failed');
+        
       }
     } catch (error) {
       console.error('Login error:', error);
+      setLoginError('Login failed. Please check your credentials.');
     }
   };
 
@@ -73,7 +77,7 @@ function Login() {
                 label="Username"
                 name="username"
                 autoComplete="username"
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {setUsername(e.target.value);setLoginError('')}}
               />
             </Grid>
             <Grid item xs={12}>
@@ -86,7 +90,7 @@ function Login() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => {setPassword(e.target.value);setLoginError('')}}
               />
             </Grid>
           </Grid>
@@ -101,6 +105,11 @@ function Login() {
               Login
             </Button>
           </Box>
+          {loginError && (
+          <Typography variant="body2" color="error" sx={{ mt: 2, textAlign: 'center' }}>
+            {loginError}
+          </Typography>
+        )}
           <Grid container justifyContent="flex-end" sx={{ mt: 2 }}>
             <Grid item>
               <Link href="/#/signup" variant="body2">

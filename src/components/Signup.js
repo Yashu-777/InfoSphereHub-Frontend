@@ -67,7 +67,7 @@ export default function SignUp() {
         if (response.status === 201) {
           console.log('User registered successfully');
           navigate('/login');
-          // Optionally, you can navigate or perform other actions upon successful registration
+          
         } else {
           console.error('Registration failed');
         }

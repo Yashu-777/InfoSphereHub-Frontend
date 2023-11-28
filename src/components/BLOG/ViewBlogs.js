@@ -27,7 +27,7 @@ const ViewBlogs = () => {
   const handleDeletePost = async (postId) => {
     try {
       await axiosInt.delete(`${baseUrl}/deletepost/${postId}`);
-      console.log('deleted SADGE');
+      console.log('post deleted successfully');
       fetchPosts();
     } catch (error) {
       console.error('Error deleting post:', error.message);

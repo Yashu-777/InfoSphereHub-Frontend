@@ -19,7 +19,6 @@ const NewBlog = () => {
     e.preventDefault();
     try {
       await axiosInt.post(`${baseUrl}/newpost`, newPost);
-      // Clear the form fields and fetch the updated posts
       setNewPost({ title: '', content: '' });
       console.log("New post created");
       navigate('/viewblogs')
@@ -78,7 +77,7 @@ const NewBlog = () => {
         </form>
         <Box mt={2}>
           <Link href="/#/viewblogs" variant="body2">
-            View all Blogs
+            View all Posts
           </Link>
         </Box>
       </Paper>

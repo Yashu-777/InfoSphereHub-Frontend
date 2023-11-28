@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, List, ListItem, Paper, ListItemIcon } from '@mui/material';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -40,21 +39,27 @@ const HomePage = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           bgcolor: '#E6E6FA',
+          marginTop:'50px'
         }}
       >
-        <Typography variant="h5" gutterBottom>
+        <Typography
+          variant="h5"
+          gutterBottom
+          sx={{
+            background: 'linear-gradient(45deg, #2196F3 30%, #4CAF50 70%, #FFC107 100%)',
+            color: 'white',
+            padding: '10px',
+            borderRadius: '8px',
+            boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+            textAlign: 'center',
+            fontSize: '24px',
+          }}
+        >
           Welcome to SphereHub
         </Typography>
+
         {isUserLoggedIn ? (
           <List sx={{ paddingTop: 2 }}>
-            <ListItem sx={{ ...listItemStyle }}>
-              <Link to="/blogposts" style={linkStyle}>
-                <Typography variant="h6">Blogs</Typography>
-              </Link>
-              <ListItemIcon>
-                <LibraryBooksIcon />
-              </ListItemIcon>
-            </ListItem>
             <ListItem sx={{ ...listItemStyle }}>
               <Link to="/viewblogs" style={linkStyle}>
                 <Typography variant="h6">View Posts</Typography>
@@ -97,7 +102,7 @@ const HomePage = () => {
             </ListItem>
           </List>
         ) : (
-          <Typography variant="body1">
+          <Typography variant="body1" sx={{my:2}}>
             Please <Link to="/login">login</Link> to access the content.
           </Typography>
         )}

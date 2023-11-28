@@ -51,7 +51,7 @@ const ViewTasks = () => {
         status: newStatus,
       });
       fetchTasks();
-      console.log('Task status updated successfully');
+      //console.log('Task status updated successfully');
     } catch (error) {
       console.error('Error updating task status:', error.message);
     }
@@ -92,7 +92,7 @@ const ViewTasks = () => {
           sx={{
             p: 2,
             mb: 2,
-            backgroundColor: 'rgba(0, 158, 0, 0.3)', // Light Green with 20% opacity
+            backgroundColor: 'rgba(0, 158, 0, 0.3)',
             textAlign: 'center',
           }}
         >

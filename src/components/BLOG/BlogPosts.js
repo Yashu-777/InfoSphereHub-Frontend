@@ -34,11 +34,9 @@ function BlogPosts() {
           <strong>Protected Message:</strong> {protectedMessage}
         </div>
         
-        {/* Display user information */}
         {user && (
           <div>
             <strong>Username:</strong> {user.username}
-            {/* Add other user properties as needed */}
           </div>
         )}
       </div>

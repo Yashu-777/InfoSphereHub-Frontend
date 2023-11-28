@@ -4,7 +4,7 @@ import { TextField, Button, Typography, Paper, FormControl, FormGroup, Box, Cont
 import { WiDaySunny, WiThermometer, WiThermometerExterior, WiHumidity, WiStrongWind } from 'react-icons/wi';
 import { BiSearch } from 'react-icons/bi';
 
-const apiKey = process.env.REACT_APP_apiKey; // Replace with your API key
+const apiKey = process.env.REACT_APP_apiKey;
 
 const Weather = () => {
   const [city, setCity] = useState('');
@@ -66,6 +66,7 @@ const Weather = () => {
                 value={city}
                 onChange={handleCityChange}
                 sx={{ width: '100%' }}
+                name='cityname'
               />
               <BiSearch style={{ fontSize: '35px', marginLeft: '10px', color: 'gray', cursor: 'pointer' }} onClick={handleSubmit} />
             </Box>

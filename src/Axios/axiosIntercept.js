@@ -1,5 +1,3 @@
-// axios.js (create a separate file for Axios setup)
-
 import axios from 'axios';
 
 const instance = axios.create();
