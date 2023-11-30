@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Typography, List, ListItem, Paper, ListItemIcon } from '@mui/material';
+import { Typography, List, ListItem, Paper, ListItemIcon,Card, CardMedia } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import CloudIcon from '@mui/icons-material/Cloud';
+import SpherehubImage from '../Spherehub.png';
 
 const listItemStyle = {
   borderBottom: '1px solid #333',
@@ -102,9 +103,19 @@ const HomePage = () => {
             </ListItem>
           </List>
         ) : (
-          <Typography variant="body1" sx={{my:2}}>
-            Please <Link to="/login">login</Link> to access the content.
-          </Typography>
+          <>
+            <Typography variant="body1" sx={{ my: 2 }}>
+              Please <Link to="/login">login</Link> to access the content.
+            </Typography>
+            <Card sx={{ maxWidth: '600px', margin: 'auto',mt:'27px' }}>
+              <CardMedia
+                component="img"
+                height="100%"
+                image={SpherehubImage}
+                alt="SphereHub"
+              />
+            </Card>
+          </>
         )}
       </Paper>
     </div>
