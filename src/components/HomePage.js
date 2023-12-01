@@ -6,7 +6,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import CloudIcon from '@mui/icons-material/Cloud';
-import SpherehubImage from '../Spherehub.png';
+import SpherehubImage from '../Spherehub2.png';
 
 const listItemStyle = {
   borderBottom: '1px solid #333',
@@ -107,7 +107,7 @@ const HomePage = () => {
             <Typography variant="body1" sx={{ my: 2 }}>
               Please <Link to="/login">login</Link> to access the content.
             </Typography>
-            <Card sx={{ maxWidth: '600px', margin: 'auto',mt:'27px' }}>
+            <Card elevation={0} sx={{ maxWidth: '800px',height:'auto', margin: 'auto',mt:'20px' }}>
               <CardMedia
                 component="img"
                 height="100%"
